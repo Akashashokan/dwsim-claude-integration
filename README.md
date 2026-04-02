@@ -150,6 +150,7 @@ Once the `.claude/` folder is in place, these commands are available:
 | Command | What it does |
 |---------|-------------|
 | `/dwsim <request>` | Natural language DWSIM request -- describe what you want |
+| `/dwsim-dynamic <request>` | Dynamic/transient simulation workflow (startup, control, disturbances) |
 | `/dwsim-flash PT 300 1e5 Water:0.5,Ethanol:0.5` | Run a PT flash calculation |
 | `/dwsim-props Water` | Query compound properties from the database |
 | `/dwsim-props search ethyl` | Search compounds by partial name |
