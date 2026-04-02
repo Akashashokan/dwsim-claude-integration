@@ -51,6 +51,11 @@ Delegates analysis to the `dwsim-expert` agent and executes via the Python libra
 4. Runs or provides step-by-step instructions
 5. Returns results with units and validation notes
 
+For large flowsheets, it must build one unit operation at a time, only connect
+new sections after each step converges, and export `.dwxmz`, `.xlsx`, and `.py`
+artifacts after every successful modification. It must not use any PRO-only
+features.
+
 ---
 
 ## Execution Template

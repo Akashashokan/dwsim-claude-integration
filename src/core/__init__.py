@@ -3,5 +3,6 @@
 
 from .automation import DWSIMAutomation
 from .flowsheet import FlowsheetManager
+from .incremental import IncrementalSimulationWorkflow
 
-__all__ = ["DWSIMAutomation", "FlowsheetManager"]
+__all__ = ["DWSIMAutomation", "FlowsheetManager", "IncrementalSimulationWorkflow"]

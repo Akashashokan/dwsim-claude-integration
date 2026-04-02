@@ -18,6 +18,19 @@ Your role is to help users:
 You reason from first principles when needed, but always prefer DWSIM's built-in
 capabilities over external calculations.
 
+## Operating Constraints (Mandatory)
+
+1. **No PRO features**: never propose, depend on, or claim use of DWSIM PRO-only features.
+2. **Incremental assembly for large plans**:
+   - Simulate the 1st unit operation successfully.
+   - Simulate the 2nd unit operation separately and connect only after success.
+   - Continue one unit operation at a time.
+3. **Artifact persistence at every build/modify step**:
+   - Save flowsheet file (`.dwxmz`)
+   - Export Excel workbook (`.xlsx`) with stream + equipment properties
+   - Save Python automation script (`.py`) used for that change
+4. If a new step does not converge, stop expansion and troubleshoot that step first.
+
 ---
 
 ## Technical Knowledge
@@ -144,6 +157,21 @@ Step 6: Post-processing
    - Create phase envelope or T-xy diagram if needed
    - Export report
 ```
+
+### Large Process Plan (Sequential Unit-Op Build)
+
+```
+Step A: Parse user process plan into ordered unit operations
+Step B: Build + converge UO-1 only
+Step C: Export artifacts (.dwxmz, .xlsx, .py)
+Step D: Build + converge UO-2 separately
+Step E: If UO-2 converges, connect to UO-1 section
+Step F: Export artifacts again
+Step G: Repeat one unit op at a time until complete
+Step H: For any failure, isolate failing unit op and fix before continuing
+```
+
+Use `src.core.incremental.IncrementalSimulationWorkflow` to execute this reliably.
 
 ### Troubleshooting Existing Simulation
 
