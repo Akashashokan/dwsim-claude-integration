@@ -31,6 +31,8 @@ Ask or infer:
 - What temperature and pressure ranges?
 - Are there polar compounds, water, electrolytes, or polymers?
 - Is this a new simulation or debugging an existing one?
+- Is dynamic behavior required (startup/shutdown, control loops, disturbances)?
+- Confirm that only open-source / non-PRO DWSIM capabilities are allowed.
 
 ### Step 2 — Select Property Package
 
@@ -47,9 +49,28 @@ from src.core.flowsheet import FlowsheetManager
 from src.thermo.flash_calculations import FlashCalculator
 from src.thermo.property_packages import PropertyPackageManager
 from src.thermo.compound_properties import CompoundDatabase
+from src.core.incremental import IncrementalSimulationWorkflow
 ```
 
-### Step 4 — Validate Results
+### Step 4 — Build Incrementally (Mandatory for Big Flowsheets)
+
+For multi-unit process plans, solve one unit operation at a time:
+
+1. Build and converge the first unit operation with feed/product streams.
+2. Build the next unit operation in isolation (or on a copy), converge it.
+3. Connect it to the previous converged section **only after success**.
+4. Repeat until the whole train is assembled.
+5. If a step fails, stop and troubleshoot before adding more units.
+
+After each successful build/modify step, save all three artifacts:
+
+- Updated flowsheet snapshot (`.dwxmz`)
+- Excel workbook (`.xlsx`) with stream + equipment properties
+- Python automation script (`.py`) used for that step
+
+Use `IncrementalSimulationWorkflow` when possible to automate this process.
+
+### Step 5 — Validate Results
 
 Before presenting results, verify:
 - [ ] Mass balance closes (sum of outlet flows = inlet flows)
@@ -57,7 +78,7 @@ Before presenting results, verify:
 - [ ] Temperature and pressure are physically reasonable
 - [ ] Phase behavior is consistent with expected VLE
 
-### Step 5 — Present Results
+### Step 6 — Present Results
 
 Format outputs with:
 - Values with units explicitly stated (K, bar, mol/s, kJ/kg)
@@ -194,3 +215,6 @@ if not dwsim_path:
 - Never hardcode compound compositions from real projects as examples
 - Use descriptive variable names matching chemical engineering conventions
   (T_K, P_Pa, x_mol_frac, V_m3, H_kJ_kg)
+- Never rely on DWSIM PRO-only features; use only open-source features/API.
+- For dynamic simulation requests, prefer standard DWSIM dynamic mode and
+  explicitly avoid any PRO-exclusive functionality.
