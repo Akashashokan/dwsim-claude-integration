@@ -155,6 +155,11 @@ Once the `.claude/` folder is in place, these commands are available:
 | `/dwsim-props Water` | Query compound properties from the database |
 | `/dwsim-props search ethyl` | Search compounds by partial name |
 
+Additional bundled skills for specialized ethylene work:
+
+- `.claude/skills/ethylene-recovery-steady/SKILL.md` — steady-state ethylene recovery section build workflow
+- `.claude/skills/ethylene-recovery-hybrid/SKILL.md` — hybrid dynamic envelope + quasi-steady cryogenic core workflow
+
 ### Install Commands Globally
 
 To use the commands in any project (not just this one):
@@ -236,8 +241,12 @@ dwsim-automation/
 │   │   ├── dwsim-flash.md     # Flash calculations
 │   │   └── dwsim-props.md     # Compound properties
 │   └── skills/
-│       └── dwsim/
-│           └── SKILL.md       # Claude Code skill
+│       ├── dwsim/
+│       │   └── SKILL.md       # Claude Code skill
+│       ├── ethylene-recovery-steady/
+│       │   └── SKILL.md       # Ethylene recovery (steady-state)
+│       └── ethylene-recovery-hybrid/
+│           └── SKILL.md       # Ethylene recovery (hybrid dynamic)
 ├── src/
 │   ├── core/
 │   │   ├── automation.py      # Main DWSIM interface
